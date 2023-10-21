@@ -60,7 +60,7 @@ jobs:
         name: Build and push Master
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         id: docker_build_master
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ${{ matrix.app }}/${{ matrix.version }}
           file: ${{ matrix.app }}/${{ matrix.version }}/Dockerfile          
@@ -74,7 +74,7 @@ jobs:
         name: Build and push Feature PR
         if: ${{ github.event_name == 'pull_request' }}
         id: docker_build_feature
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ${{ matrix.app }}/${{ matrix.version }}
           file: ${{ matrix.app }}/${{ matrix.version }}/Dockerfile          
