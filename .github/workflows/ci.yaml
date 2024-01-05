@@ -48,14 +48,14 @@ jobs:
       -
         name: Login to DockerHub
         uses: docker/login-action@v3 
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-#        Use below configuration for ghcr.io
 #        with:
-#          registry: ghcr.io
-#          username: ${{ github.repository_owner }}
-#          password: ${{ secrets.CR_PAT }} 
+#         username: ${{ secrets.DOCKERHUB_USERNAME }}
+#         password: ${{ secrets.DOCKERHUB_TOKEN }}
+#        Use below configuration for ghcr.io
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }} 
       -
         name: Build and push Master
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
@@ -67,9 +67,9 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/386
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.app }}:${{ matrix.version }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.app }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/gsoc2:${{ matrix.app }}_${{ matrix.version }}
+            ${{ github.repository_owner }}/${{ matrix.app }}:${{ matrix.version }}
+            ${{ github.repository_owner }}/${{ matrix.app }}:latest
+            ${{ github.repository_owner }}/gsoc2:${{ matrix.app }}_${{ matrix.version }}
       -
         name: Build and push Feature PR
         if: ${{ github.event_name == 'pull_request' }}
@@ -81,7 +81,7 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/386
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.app }}:${{ github.head_ref }}
+            ${{ github.repository_owner }}/${{ matrix.app }}:${{ github.head_ref }}
       -
         name: Image digest
         run: |
